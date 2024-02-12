@@ -1,0 +1,15 @@
+# Microsoft.EntityFrameworkCore.Design
+# dotnet ef migrations add InitialCreate
+# jesli trzeba puścić aktualizacje: dotnet tool update --global dotnet-ef
+# lub
+# Microsoft.EntityFrameworkCore.Tools
+# Add-Migration InitialCreate
+
+
+# dotnet ef migrations add InitialCreate --project Ordering.Infrastructure.csproj --startup-project ../Ordering.API/Ordering.API.csproj 
+# --project means which project contains the DbContext class
+# --startup-project means which project contains the database connection information and other information.
+
+
+
+dotnet ef migrations remove --project Ordering.Infrastructure.csproj --startup-project ../Ordering.API/Ordering.API.csproj
