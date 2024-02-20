@@ -23,7 +23,7 @@ namespace Ordering.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<OrdersVm>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetOrderByUserName(string userName)
         {
-            var result = _mediator.Send(new GetOrdersListQuery(userName));
+            var result = await _mediator.Send(new GetOrdersListQuery(userName));
             return Ok(result);
         }
 
