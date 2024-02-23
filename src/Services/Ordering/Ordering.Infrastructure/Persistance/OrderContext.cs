@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Ordering.Application.Contracts.Persistance;
 using Ordering.Domain.Common;
 using Ordering.Domain.Entities;
+using Ordering.Infrastructure.Repositories;
 
 namespace Ordering.Infrastructure.Persistance
 {
-    public class OrderContext : DbContext
+    public class OrderContext : DbContext, IDatabase
     {
         //public OrderContext() { } // This one
         public OrderContext(DbContextOptions<OrderContext> options) : base(options)
@@ -12,6 +14,11 @@ namespace Ordering.Infrastructure.Persistance
         }
 
         public DbSet<Order> Orders { get; set; }
+        public async Task<ITransaction> BeginTransactionAsync()
+        {
+            var transaction = await base.Database.BeginTransactionAsync();
+            return new EfTransaction(transaction);
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

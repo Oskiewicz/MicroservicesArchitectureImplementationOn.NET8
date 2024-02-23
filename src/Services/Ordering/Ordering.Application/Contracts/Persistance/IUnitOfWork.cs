@@ -4,8 +4,10 @@ namespace Ordering.Application.Contracts.Persistance
 {
     public interface IUnitOfWork : IDisposable
     {
-        void Commit();
+        IOrderRepository OrderRepository { get; set; }
+        Task BeginTransactionAsync();
+        Task CommitAsync(CancellationToken cancellationToken = default);
+        int Commit();
         void Rollback();
-        IAsyncRepository<T> Repository<T>() where T : EntityBase;
     }
 }

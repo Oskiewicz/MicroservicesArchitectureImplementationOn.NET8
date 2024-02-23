@@ -19,19 +19,16 @@ namespace Ordering.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
-            //return await _dbContext.Set<T>().ToListAsync();
             return await _dbSet.ToListAsync();
         }
 
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            //return await _dbContext.Set<T>().Where(predicate).ToListAsync();
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeString = null, bool disableTracking = true)
         {
-            //IQueryable<T> query = _dbContext.Set<T>();
             IQueryable<T> query = _dbSet;
             if (disableTracking) query = query.AsNoTracking();
 
@@ -46,7 +43,6 @@ namespace Ordering.Infrastructure.Repositories
 
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<Expression<Func<T, object>>> includes = null, bool disableTracking = true)
         {
-            //IQueryable<T> query = _dbContext.Set<T>();
             IQueryable<T> query = _dbSet;
             if (disableTracking) query = query.AsNoTracking();
 
@@ -61,13 +57,11 @@ namespace Ordering.Infrastructure.Repositories
 
         public virtual async Task<T> GetByIdAsync(int id)
         {
-            //return await _dbContext.Set<T>().FindAsync(id);
             return await _dbSet.FindAsync(id);
         }
 
         public async Task<T> AddAsync(T entity)
         {
-            //_dbContext.Set<T>().Add(entity);
             _dbSet.Add(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
@@ -76,14 +70,19 @@ namespace Ordering.Infrastructure.Repositories
         public async Task UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            //await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)
         {
-            //_dbContext.Set<T>().Remove(entity);
             _dbSet.Remove(entity);
-            await _dbContext.SaveChangesAsync();
+            //await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<ITransaction> BeginTransactionAsync()
+        {
+            var transaction = await _dbContext.Database.BeginTransactionAsync();
+            return new EfTransaction(transaction);
         }
     }
 }

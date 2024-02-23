@@ -18,8 +18,7 @@ namespace Ordering.Infrastructure
                 options.UseSqlServer(configuration.GetConnectionString("OrderingConnectionString")));
 
 //            services.AddScoped<DbContext, OrderContext>(); // This is what I added
-//services.AddScoped<IUnitOfWork, UnitOfWork>(); // My custom service
-
+            services.AddScoped<IUnitOfWork, UnitOfWork>(); // My custom service
             services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));                        
             services.AddScoped<IOrderRepository, OrderRepository>();
 
