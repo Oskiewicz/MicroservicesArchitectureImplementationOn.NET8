@@ -1,0 +1,37 @@
+docker run -d -p 6379:6379 --name basketdb-redis redis
+
+docker logs -f basketdb-redis
+docker exec -it basketdb-redis /bin/bash
+
+    # Komendy Redis:
+    redis-cli
+        ping
+        set key value 
+        get key
+        set name Patryk
+        get name
+
+
+Install-Package Microsoft.Extensions.Caching.StackExchangeRedis
+Update-Package -ProjectName Basket.API
+
+
+{
+  "userName": "swn",
+  "items": [
+    {
+      "quantity": 2,
+      "color": "red",
+      "price": 33,
+      "productId": "5",
+      "productName": "IPhone X"
+    },
+ {
+      "quantity": 1,
+      "color": "blue",
+      "price": 45,
+      "productId": "5123123123123",
+      "productName": "Samsung 10"
+    }
+  ]
+}
